@@ -1,0 +1,73 @@
+#!/bin/bash
+pasta=$(pwd)
+mensagem()
+{
+	echo "o framework $1 foi instalado com sucesso"
+}
+instalandobootstrap()
+{
+	local base=~/.frameworks/bootstrap
+	if [ ! -d css ]
+	then
+		$(mkdir css)
+	fi
+	$(cp $base/*.css $pasta/css)
+	if [ ! -d js ]
+	then
+		$(mkdir js)
+	fi
+	$(cp $base/*.js $pasta/js)
+	mensagem "bootstrap"
+}
+mostraopcoes()
+{
+	echo "'-b' para instalar o bootstrap"
+	echo "'-j' para instalar o jquery"
+	echo "'-jm' para instalar o jquerymobile"	
+}
+instalandojquery()
+{
+	local base=~/.frameworks/jquery
+	if [ ! -d js ]
+	then
+		$(mkdir js)
+	fi
+	$(cp $base/*.js $pasta/js)
+	mensagem "jquery"
+}
+instalandojquerymobile()
+{
+	instalandojquery
+	local base=~/.frameworks/jquerymobile
+	if [ ! -d css ]
+	then
+		$(mkdir css)
+	fi
+	$(cp $base/*.css $pasta/css)
+	if [ ! -d js ]
+	then
+		$(mkdir js)
+	fi
+	$(cp $base/*.js $pasta/js)
+	mensagem "jquery mobile"
+}
+verificacao(){
+	for opcao in $@
+	do
+		case $opcao in
+			-b)
+				instalandobootstrap;;
+			-j)
+				instalandojquery;;
+			-jm)
+				instalandojquerymobile;;
+			-h)
+				mostraopcoes;;
+			*)
+				echo "opcao invalida"
+				mostraopcoes;;
+		esac
+	done
+}
+
+verificacao $@
